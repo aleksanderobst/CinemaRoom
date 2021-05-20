@@ -1,0 +1,308 @@
+package cinema;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Cinema {
+
+    public static void main(String[] args) {
+
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter the number of rows:");
+        int r = s.nextInt();
+        System.out.println("Enter the number of seats in each row:");
+        int c = s.nextInt();
+        int[][] array = new int[r][c];
+        menu(r, c, array);
+
+    }
+
+    public static void showCinema(int r , int c, int[][] array) {
+
+
+
+
+        System.out.println("Cinema:");
+        System.out.print("  ");
+        for (int i = 1; i <= c; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println(" ");
+
+
+        for (int i = 0; i < r; i++) {
+            String formattedString = Arrays.toString(array[i])
+                    .replace("1", "B")
+                    .replace("0", "S")
+                    .replace(",", "")  //remove the commas
+                    .replace("[", "")  //remove the right bracket
+                    .replace("]", "")  //remove the left bracket
+                    .trim();           //remove trailing spaces from partially initialized arrays
+            System.out.print((i + 1) + " ");
+            System.out.println(formattedString);
+        }
+        System.out.println();
+
+
+
+
+        menu(r,c, array);
+    }
+
+    public static void buyTicket(int r, int c, int[][] array) {
+
+
+        Scanner s = new Scanner(System.in);
+
+        int d = 0;
+        int f = 0;
+
+            System.out.println("Enter a row number:");
+
+
+
+                d = s.nextInt();
+
+
+
+
+            System.out.println("Enter a seat number in that row:");
+
+
+
+            f = s.nextInt();
+
+        if (d < 1 || d  > r  ) {
+            System.out.println("Wrong input!");
+            buyTicket(r, c, array);
+
+        }
+        else if( f < 1 || f  > c){
+            System.out.println("Wrong input!");
+            buyTicket(r, c, array);}
+        else {
+            if (array[d-1][f-1] != 1){
+                array[d-1][f-1] = 1;
+
+                int money = 0;
+                int equals = r * c;
+                int total = 0;
+                if (equals <= 60) {
+                    money = 10;
+                    System.out.println("Ticket price: $" + money);
+
+
+                } else if (equals > 60) {
+
+
+                    int part1 = 0;
+                    int row3 = r/2;
+                    part1 = (row3) * c ;
+
+
+                    if(d <= row3)
+                    {
+                        money = 10;
+                        System.out.println("Ticket price: $" + money);
+
+                    }
+                    else if (d > row3){
+                        money = 8;
+                        System.out.println("Ticket price: $" + money);
+
+                    }
+
+                }
+
+            }
+
+            else if (array[d-1][f-1] == 1){
+                System.out.println("That ticket has already been purchased!");
+                buyTicket( r,  c,  array);
+            }
+
+
+
+
+            System.out.println(" ");
+
+
+
+
+
+
+
+
+            System.out.println();
+            System.out.println("Cinema:");
+            System.out.print("  ");
+            for (int i = 1; i <= c; i++) {
+                System.out.print(i + " ");
+            }
+            System.out.println(" ");
+
+            for (int i = 0; i < r; i++) {
+                String formattedString = Arrays.toString(array[i])
+                        .replace("1", "B")
+                        .replace("0", "S")
+                        .replace(",", "")  //remove the commas
+                        .replace("[", "")  //remove the right bracket
+                        .replace("]", "")  //remove the left bracket
+                        .trim();           //remove trailing spaces from partially initialized arrays
+                System.out.print((i + 1) + " ");
+                System.out.println(formattedString);
+            }
+            menu(r, c, array);
+        }
+
+
+
+
+
+    }
+
+    public static void statistics(int r, int c, int[][] array) {
+
+
+
+        // number of seats
+        int counter2 = 0;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++)
+
+                if (array[i][j] == 1) {
+                    counter2++;
+                }
+
+        }
+//end number of seats
+
+
+
+//total income
+        float money = 0;
+        float equals = r * c;
+        if (equals < 60) {
+            money = equals * 10;
+
+          } else if (equals >= 60) {
+            int rows3 = r - (c / 2);
+            money = ((r / 2) * c * 10) + (rows3 * c * 8);
+        }
+//total income end
+
+       // percentage of seats
+        float counter3 = 0;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++)
+
+                if (array[i][j] == 1) {
+                    counter3++;
+                }
+
+        }
+
+float perc = (counter3 / equals) * 100;
+
+// end percentage of seats
+
+
+
+
+        int money2 = 0;
+        int equals2 = r * c;
+        if (equals2 < 60) {
+            money2 = counter2 * 10;
+
+        } else if (equals2 >= 60) {
+            int rows3 = r - (c / 2);
+            money2 = ((1 / 2) * counter2 * 10) + (1/2 * counter2 * 8);
+        }
+
+        // current income
+        int counter4 = 0;
+        if (r * c < 60){
+
+            for (int i = 0; i < r; i++) {
+                for (int j = 0; j < c; j++)
+
+                    if (array[i][j] == 1) {
+                        counter4++;
+                    }
+
+            }
+
+        }
+
+        int total = counter4 * 10;
+        System.out.println(total);
+
+        int counter5 = 0;
+        int counter6 = 0;
+        if (r * c > 60) {
+
+            int number = r / 2;
+            for (int i = 0; i < number; i++) {
+                for (int j = 0; j < c; j++)
+
+                    if (array[i][j] == 1) {
+                        counter5++;
+                    }
+            }
+
+            for (int i = number; i < r; i++) {
+                for (int j = 0; j < c; j++)
+
+                    if (array[i][j] == 1) {
+                        counter6++;
+                    }
+            }
+
+        } total = (counter5 * 10) + (counter6 * 8);
+        System.out.println(total);
+
+        System.out.println(" ");
+        System.out.println("Number of purchased tickets: " + counter2);
+
+        System.out.printf("Percentage: %.2f%%%n", perc);
+        System.out.println("Current income: $" + total );
+        System.out.printf("Total income: $%.0f%n", money);
+        System.out.println(" ");
+        menu(r, c, array);
+    }
+
+
+
+    public static void exitCinema() {
+
+    }
+
+    public static void menu(int r, int c, int[][] array){
+
+        do {
+            System.out.println("1. Show the seats");
+            System.out.println("2. Buy a ticket");
+            System.out.println("3. Statistics");
+            System.out.println("0. Exit");
+            break;
+        }
+        while (true);
+
+        Scanner s = new Scanner(System.in);
+        int a = s.nextInt();
+        if (a == 1){
+            showCinema(r, c, array);
+        }
+        else if (a == 2){
+            buyTicket(r, c, array);
+        }
+        else if (a == 3){
+
+
+            statistics(r,  c,  array);
+        }
+        else if (a == 0){
+            exitCinema();
+        }
+    }
+}
